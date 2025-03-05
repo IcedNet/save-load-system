@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
         else if (context.canceled)
         {
             moveDirection = context.ReadValue<Vector2>();
-        } 
+        }
     }
 
     public void JumpPressed(InputAction.CallbackContext context)
@@ -60,7 +60,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public Vector2 GetMoveDirection() 
+    public Vector2 GetMoveDirection()
     {
         return moveDirection;
     }
@@ -69,28 +69,27 @@ public class InputManager : MonoBehaviour
     // which means we should set it to false so that it can't be used again until actually
     // pressed again.
 
-    public bool GetJumpPressed() 
+    public bool GetJumpPressed()
     {
         bool result = jumpPressed;
         RegisterJumpPressedThisFrame();
         return result;
     }
 
-    public void RegisterJumpPressedThisFrame() 
+    public void RegisterJumpPressedThisFrame()
     {
         jumpPressed = false;
     }
 
-    public bool GetExitPressed() 
+    public bool GetExitPressed()
     {
         bool result = exitPressed;
         RegisterExitPressedThisFrame();
         return result;
     }
 
-    public void RegisterExitPressedThisFrame() 
+    public void RegisterExitPressedThisFrame()
     {
         exitPressed = false;
     }
-
 }

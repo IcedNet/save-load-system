@@ -9,9 +9,10 @@
                     "name": "jump",
                     "type": "Button",
                     "id": "b64f28e5-6f0c-4370-9f80-2a9a33c0fe95",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "move",
@@ -19,15 +20,17 @@
                     "id": "7ea5ec66-e7df-4d26-9425-2b7f30cc5d4b",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "exit",
                     "type": "Button",
                     "id": "89d068cc-bd9d-488b-bc9e-9ef4b2e4f5fe",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -35,6 +38,17 @@
                     "name": "",
                     "id": "2d1d03bb-afc3-4197-9957-6c060a0459e4",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "061d27c6-0b2b-4c20-a6e8-5dbfbf5bf28a",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

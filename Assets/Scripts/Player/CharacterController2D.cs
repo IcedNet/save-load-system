@@ -9,17 +9,24 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour, IDataPersistence
 {
-
     [Header("Movement Params")]
-    [SerializeField] private float runSpeed = 6.0f;
-    [SerializeField] private float jumpSpeed = 8.0f;
-    [SerializeField] private float gravityScale = 20.0f;
+    [SerializeField]
+    private float runSpeed = 6.0f;
+
+    [SerializeField]
+    private float jumpSpeed = 8.0f;
+
+    [SerializeField]
+    private float gravityScale = 20.0f;
 
     [Header("Respawn Point")]
-    [SerializeField] private Transform respawnPoint;
+    [SerializeField]
+    private Transform respawnPoint;
 
     [Header("Attributes SO")]
-    [SerializeField] private AttributesScriptableObject playerAttributesSO;
+    [SerializeField]
+    private AttributesScriptableObject playerAttributesSO;
+    private DebugLogger _log = new DebugLogger(nameof(CharacterController2D));
 
     // components attached to player
     private BoxCollider2D coll;
@@ -50,7 +57,7 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         rb.gravityScale = gravityScale;
     }
 
-    public void LoadData(GameData data) 
+    public void LoadData(GameData data)
     {
         this.transform.position = data.playerPosition;
         // load the values from our game data into the scriptable object
@@ -60,7 +67,7 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         playerAttributesSO.endurance = data.playerAttributesData.endurance;
     }
 
-    public void SaveData(GameData data) 
+    public void SaveData(GameData data)
     {
         data.playerPosition = this.transform.position;
         // store the values from our scriptable object into the game data
@@ -70,11 +77,16 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         data.playerAttributesData.endurance = playerAttributesSO.endurance;
     }
 
-    private void Update() 
+    private void Update()
     {
+        // Vector2 direction = InputManager.instance.GetMoveDirection();
+        // _log.Log(
+        //     ".Update direction = " + direction.ToString() + " -- moveDirection.y" + direction.y
+        // );
+
         // below code just used to test exiting the scene,
         // you probably wouldn't want to actually do this as part of your character controller script.
-        if (InputManager.instance.GetExitPressed()) 
+        if (InputManager.instance.GetExitPressed())
         {
             // save the game anytime before loading a new scene
             DataPersistenceManager.instance.SaveGame();
@@ -85,7 +97,7 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
 
     private void FixedUpdate()
     {
-        if (disableMovement) 
+        if (disableMovement)
         {
             return;
         }
@@ -96,6 +108,8 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
 
         HandleHorizontalMovement();
 
+        HandleVerticalMovement();
+
         HandleJumping();
 
         UpdateFacingDirection();
@@ -103,7 +117,7 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         UpdateAnimator();
     }
 
-    private void HandleInput() 
+    private void HandleInput()
     {
         moveDirection = InputManager.instance.GetMoveDirection();
         jumpPressed = InputManager.instance.GetJumpPressed();
@@ -113,7 +127,9 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
     {
         Bounds colliderBounds = coll.bounds;
         float colliderRadius = coll.size.x * 0.4f * Mathf.Abs(transform.localScale.x);
-        Vector3 groundCheckPos = colliderBounds.min + new Vector3(colliderBounds.size.x * 0.5f, colliderRadius * 0.9f, 0);
+        Vector3 groundCheckPos =
+            colliderBounds.min
+            + new Vector3(colliderBounds.size.x * 0.5f, colliderRadius * 0.9f, 0);
         // Check if player is grounded
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckPos, colliderRadius);
         // Check if any of the overlapping colliders are not player collider, if so, set isGrounded to true
@@ -133,7 +149,12 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
 
     private void HandleHorizontalMovement()
     {
-        rb.velocity = new Vector2(moveDirection.x * runSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(moveDirection.x * runSpeed, rb.linearVelocity.y);
+    }
+
+    private void HandleVerticalMovement()
+    {
+        // rb.linearVelocity = new Vector2(moveDirection.x * runSpeed, rb.linearVelocity.y);
     }
 
     private void HandleJumping()
@@ -141,7 +162,7 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         if (isGrounded && jumpPressed)
         {
             isGrounded = false;
-            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpSpeed);
         }
     }
 
@@ -161,27 +182,35 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         // we do this instead of using the 'flipX' spriteRenderer option because our player is made up of multiple sprites
         if (facingRight)
         {
-            this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, 0, this.transform.eulerAngles.z);
+            this.transform.eulerAngles = new Vector3(
+                this.transform.eulerAngles.x,
+                0,
+                this.transform.eulerAngles.z
+            );
         }
         else
         {
-            this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, 180, this.transform.eulerAngles.z);
+            this.transform.eulerAngles = new Vector3(
+                this.transform.eulerAngles.x,
+                180,
+                this.transform.eulerAngles.z
+            );
         }
     }
 
     private void UpdateAnimator()
     {
         animator.SetBool("isGrounded", isGrounded);
-        animator.SetFloat("movementX", rb.velocity.x);
-        animator.SetFloat("movementY", rb.velocity.y);
+        animator.SetFloat("movementX", rb.linearVelocity.x);
+        animator.SetFloat("movementY", rb.linearVelocity.y);
     }
 
-    private IEnumerator HandleDeath() 
+    private IEnumerator HandleDeath()
     {
         // freeze player movemet
         rb.gravityScale = 0;
         disableMovement = true;
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         // prevent other collisions
         coll.enabled = false;
         // hide the player visual
@@ -192,11 +221,11 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         GameEventsManager.instance.PlayerDeath();
 
         yield return new WaitForSeconds(0.4f);
-        
+
         Respawn();
     }
 
-    private void Respawn() 
+    private void Respawn()
     {
         // enable movement
         rb.gravityScale = gravityScale;
@@ -209,7 +238,7 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
         this.transform.position = respawnPoint.position;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) 
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         // if we collided with anything in the harmful layer, death occurs
         if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Harmful")))
@@ -217,5 +246,4 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
             StartCoroutine(HandleDeath());
         }
     }
-
 }

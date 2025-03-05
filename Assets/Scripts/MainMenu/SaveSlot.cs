@@ -1,36 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SaveSlot : MonoBehaviour
 {
     [Header("Profile")]
-    [SerializeField] private string profileId = "";
+    [SerializeField]
+    private string profileId = "";
 
     [Header("Content")]
-    [SerializeField] private GameObject noDataContent;
-    [SerializeField] private GameObject hasDataContent;
-    [SerializeField] private TextMeshProUGUI percentageCompleteText;
-    [SerializeField] private TextMeshProUGUI deathCountText;
+    [SerializeField]
+    private GameObject noDataContent;
+
+    [SerializeField]
+    private GameObject hasDataContent;
+
+    [SerializeField]
+    private TextMeshProUGUI percentageCompleteText;
+
+    [SerializeField]
+    private TextMeshProUGUI deathCountText;
 
     [Header("Clear Data Button")]
-    [SerializeField] private Button clearButton;
+    [SerializeField]
+    private Button clearButton;
 
     public bool hasData { get; private set; } = false;
 
     private Button saveSlotButton;
 
-    private void Awake() 
+    private void Awake()
     {
         saveSlotButton = this.GetComponent<Button>();
     }
 
-    public void SetData(GameData data) 
+    public void SetData(GameData data)
     {
         // there's no data for this profileId
-        if (data == null) 
+        if (data == null)
         {
             hasData = false;
             noDataContent.SetActive(true);
@@ -38,7 +45,7 @@ public class SaveSlot : MonoBehaviour
             clearButton.gameObject.SetActive(false);
         }
         // there is data for this profileId
-        else 
+        else
         {
             hasData = true;
             noDataContent.SetActive(false);
@@ -50,7 +57,7 @@ public class SaveSlot : MonoBehaviour
         }
     }
 
-    public string GetProfileId() 
+    public string GetProfileId()
     {
         return this.profileId;
     }

@@ -15,18 +15,20 @@ public class GameEventsManager : MonoBehaviour
     }
 
     public event Action onPlayerDeath;
-    public void PlayerDeath() 
+
+    public void PlayerDeath()
     {
-        if (onPlayerDeath != null) 
+        if (onPlayerDeath != null)
         {
             onPlayerDeath();
         }
     }
 
     public event Action onCoinCollected;
-    public void CoinCollected() 
+
+    public void CoinCollected()
     {
-        if (onCoinCollected != null) 
+        if (onCoinCollected != null)
         {
             onCoinCollected();
         }
