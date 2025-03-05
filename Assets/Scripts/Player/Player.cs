@@ -33,12 +33,12 @@ public class Player : MonoBehaviour
     {
         if (ClimbingAllowed)
         {
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic; // isKinematic = true;
             rb.linearVelocity = new Vector2(dirX, dirY);
         }
         else
         {
-            rb.isKinematic = false;
+            rb.bodyType = RigidbodyType2D.Dynamic; // isKinematic = false;
             rb.linearVelocity = new Vector2(dirX, rb.linearVelocity.y);
         }
     }
