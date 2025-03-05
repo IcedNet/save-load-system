@@ -5,7 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private float moveSpeed, dirX, dirY;
+    private float moveSpeed,
+        dirX,
+        dirY;
 
     public bool ClimbingAllowed { get; set; }
 
@@ -25,7 +27,6 @@ public class Player : MonoBehaviour
         {
             dirY = Input.GetAxisRaw("Vertical") * moveSpeed;
         }
-
     }
 
     private void FixedUpdate()
