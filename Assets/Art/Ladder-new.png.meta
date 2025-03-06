@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: baab6c00ab4774a20ab10eebe97c2430
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ladder-new_0: -4777088885116025894
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
