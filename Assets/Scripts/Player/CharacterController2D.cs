@@ -81,11 +81,13 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
   {
     // Vector2 direction = InputManager.instance.GetMoveDirection();
     // _log.Log(
-    //     ".Update direction = " + direction.ToString() + " -- moveDirection.y" + direction.y
+    //     ".Update direction = " + direction.ToString()
+    //     + " -- moveDirection.y" + direction.y
     // );
 
     // below code just used to test exiting the scene,
-    // you probably wouldn't want to actually do this as part of your character controller script.
+    // you probably wouldn't want to actually do this as part of your
+    // character controller script.
     if (InputManager.instance.GetExitPressed())
     {
       // save the game anytime before loading a new scene
@@ -136,7 +138,8 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
       groundCheckPos,
       colliderRadius
     );
-    // Check if any of the overlapping colliders are not player collider, if so, set isGrounded to true
+    // Check if any of the overlapping colliders are not player collider, if so,
+    // set isGrounded to true
     this.isGrounded = false;
     if (colliders.Length > 0)
     {
@@ -161,7 +164,8 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
 
   private void HandleVerticalMovement()
   {
-    // rb.linearVelocity = new Vector2(moveDirection.x * runSpeed, rb.linearVelocity.y);
+    // rb.linearVelocity = new Vector2(moveDirection.x * runSpeed,
+    // rb.linearVelocity.y);
   }
 
   private void HandleJumping()
