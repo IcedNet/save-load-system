@@ -3,34 +3,34 @@ using UnityEngine;
 
 public class GameEventsManager : MonoBehaviour
 {
-    public static GameEventsManager instance { get; private set; }
+  public static GameEventsManager instance { get; private set; }
 
-    private void Awake()
+  private void Awake()
+  {
+    if (instance != null)
     {
-        if (instance != null)
-        {
-            Debug.LogError("Found more than one Game Events Manager in the scene.");
-        }
-        instance = this;
+      Debug.LogError("Found more than one Game Events Manager in the scene.");
     }
+    instance = this;
+  }
 
-    public event Action onPlayerDeath;
+  public event Action onPlayerDeath;
 
-    public void PlayerDeath()
+  public void PlayerDeath()
+  {
+    if (onPlayerDeath != null)
     {
-        if (onPlayerDeath != null)
-        {
-            onPlayerDeath();
-        }
+      onPlayerDeath();
     }
+  }
 
-    public event Action onCoinCollected;
+  public event Action onCoinCollected;
 
-    public void CoinCollected()
+  public void CoinCollected()
+  {
+    if (onCoinCollected != null)
     {
-        if (onCoinCollected != null)
-        {
-            onCoinCollected();
-        }
+      onCoinCollected();
     }
+  }
 }

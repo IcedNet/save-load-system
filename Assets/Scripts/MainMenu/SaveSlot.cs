@@ -4,67 +4,67 @@ using UnityEngine.UI;
 
 public class SaveSlot : MonoBehaviour
 {
-    [Header("Profile")]
-    [SerializeField]
-    private string profileId = "";
+  [Header("Profile")]
+  [SerializeField]
+  private string profileId = "";
 
-    [Header("Content")]
-    [SerializeField]
-    private GameObject noDataContent;
+  [Header("Content")]
+  [SerializeField]
+  private GameObject noDataContent;
 
-    [SerializeField]
-    private GameObject hasDataContent;
+  [SerializeField]
+  private GameObject hasDataContent;
 
-    [SerializeField]
-    private TextMeshProUGUI percentageCompleteText;
+  [SerializeField]
+  private TextMeshProUGUI percentageCompleteText;
 
-    [SerializeField]
-    private TextMeshProUGUI deathCountText;
+  [SerializeField]
+  private TextMeshProUGUI deathCountText;
 
-    [Header("Clear Data Button")]
-    [SerializeField]
-    private Button clearButton;
+  [Header("Clear Data Button")]
+  [SerializeField]
+  private Button clearButton;
 
-    public bool hasData { get; private set; } = false;
+  public bool hasData { get; private set; } = false;
 
-    private Button saveSlotButton;
+  private Button saveSlotButton;
 
-    private void Awake()
+  private void Awake()
+  {
+    saveSlotButton = this.GetComponent<Button>();
+  }
+
+  public void SetData(GameData data)
+  {
+    // there's no data for this profileId
+    if (data == null)
     {
-        saveSlotButton = this.GetComponent<Button>();
+      hasData = false;
+      noDataContent.SetActive(true);
+      hasDataContent.SetActive(false);
+      clearButton.gameObject.SetActive(false);
     }
-
-    public void SetData(GameData data)
+    // there is data for this profileId
+    else
     {
-        // there's no data for this profileId
-        if (data == null)
-        {
-            hasData = false;
-            noDataContent.SetActive(true);
-            hasDataContent.SetActive(false);
-            clearButton.gameObject.SetActive(false);
-        }
-        // there is data for this profileId
-        else
-        {
-            hasData = true;
-            noDataContent.SetActive(false);
-            hasDataContent.SetActive(true);
-            clearButton.gameObject.SetActive(true);
+      hasData = true;
+      noDataContent.SetActive(false);
+      hasDataContent.SetActive(true);
+      clearButton.gameObject.SetActive(true);
 
-            percentageCompleteText.text = data.GetPercentageComplete() + "% COMPLETE";
-            deathCountText.text = "DEATH COUNT: " + data.deathCount;
-        }
+      percentageCompleteText.text = data.GetPercentageComplete() + "% COMPLETE";
+      deathCountText.text = "DEATH COUNT: " + data.deathCount;
     }
+  }
 
-    public string GetProfileId()
-    {
-        return this.profileId;
-    }
+  public string GetProfileId()
+  {
+    return this.profileId;
+  }
 
-    public void SetInteractable(bool interactable)
-    {
-        saveSlotButton.interactable = interactable;
-        clearButton.interactable = interactable;
-    }
+  public void SetInteractable(bool interactable)
+  {
+    saveSlotButton.interactable = interactable;
+    clearButton.interactable = interactable;
+  }
 }

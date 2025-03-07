@@ -4,42 +4,42 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    private float moveSpeed,
-        dirX,
-        dirY;
+  private Rigidbody2D rb;
+  private float moveSpeed,
+    dirX,
+    dirY;
 
-    public bool ClimbingAllowed { get; set; }
+  public bool ClimbingAllowed { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
+  // Start is called before the first frame update
+  void Start()
+  {
+    rb = GetComponent<Rigidbody2D>();
+    moveSpeed = 5f;
+  }
+
+  // Update is called once per frame
+  void Update()
+  {
+    dirX = Input.GetAxisRaw("Horizontal") * moveSpeed;
+
+    if (ClimbingAllowed)
     {
-        rb = GetComponent<Rigidbody2D>();
-        moveSpeed = 5f;
+      dirY = Input.GetAxisRaw("Vertical") * moveSpeed;
     }
+  }
 
-    // Update is called once per frame
-    void Update()
+  private void FixedUpdate()
+  {
+    if (ClimbingAllowed)
     {
-        dirX = Input.GetAxisRaw("Horizontal") * moveSpeed;
-
-        if (ClimbingAllowed)
-        {
-            dirY = Input.GetAxisRaw("Vertical") * moveSpeed;
-        }
+      rb.bodyType = RigidbodyType2D.Kinematic; // isKinematic = true;
+      rb.linearVelocity = new Vector2(dirX, dirY);
     }
-
-    private void FixedUpdate()
+    else
     {
-        if (ClimbingAllowed)
-        {
-            rb.bodyType = RigidbodyType2D.Kinematic; // isKinematic = true;
-            rb.linearVelocity = new Vector2(dirX, dirY);
-        }
-        else
-        {
-            rb.bodyType = RigidbodyType2D.Dynamic; // isKinematic = false;
-            rb.linearVelocity = new Vector2(dirX, rb.linearVelocity.y);
-        }
+      rb.bodyType = RigidbodyType2D.Dynamic; // isKinematic = false;
+      rb.linearVelocity = new Vector2(dirX, rb.linearVelocity.y);
     }
+  }
 }

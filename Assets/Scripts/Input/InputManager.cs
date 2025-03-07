@@ -9,87 +9,87 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class InputManager : MonoBehaviour
 {
-    private Vector2 moveDirection = Vector2.zero;
-    private bool jumpPressed = false;
-    private bool exitPressed = false;
+  private Vector2 moveDirection = Vector2.zero;
+  private bool jumpPressed = false;
+  private bool exitPressed = false;
 
-    public static InputManager instance { get; private set; }
+  public static InputManager instance { get; private set; }
 
-    private void Awake()
+  private void Awake()
+  {
+    if (instance != null)
     {
-        if (instance != null)
-        {
-            Debug.LogError("Found more than one Input Manager in the scene.");
-        }
-        instance = this;
+      Debug.LogError("Found more than one Input Manager in the scene.");
     }
+    instance = this;
+  }
 
-    public void MovePressed(InputAction.CallbackContext context)
+  public void MovePressed(InputAction.CallbackContext context)
+  {
+    if (context.performed)
     {
-        if (context.performed)
-        {
-            moveDirection = context.ReadValue<Vector2>();
-        }
-        else if (context.canceled)
-        {
-            moveDirection = context.ReadValue<Vector2>();
-        }
+      moveDirection = context.ReadValue<Vector2>();
     }
-
-    public void JumpPressed(InputAction.CallbackContext context)
+    else if (context.canceled)
     {
-        if (context.performed)
-        {
-            jumpPressed = true;
-        }
-        else if (context.canceled)
-        {
-            jumpPressed = false;
-        }
+      moveDirection = context.ReadValue<Vector2>();
     }
+  }
 
-    public void ExitPressed(InputAction.CallbackContext context)
+  public void JumpPressed(InputAction.CallbackContext context)
+  {
+    if (context.performed)
     {
-        if (context.performed)
-        {
-            exitPressed = true;
-        }
-        else if (context.canceled)
-        {
-            exitPressed = false;
-        }
+      jumpPressed = true;
     }
-
-    public Vector2 GetMoveDirection()
+    else if (context.canceled)
     {
-        return moveDirection;
+      jumpPressed = false;
     }
+  }
 
-    // for any of the below 'Get' methods, if we're getting it then we're also using it,
-    // which means we should set it to false so that it can't be used again until actually
-    // pressed again.
-
-    public bool GetJumpPressed()
+  public void ExitPressed(InputAction.CallbackContext context)
+  {
+    if (context.performed)
     {
-        bool result = jumpPressed;
-        RegisterJumpPressedThisFrame();
-        return result;
+      exitPressed = true;
     }
-
-    public void RegisterJumpPressedThisFrame()
+    else if (context.canceled)
     {
-        jumpPressed = false;
+      exitPressed = false;
     }
+  }
 
-    public bool GetExitPressed()
-    {
-        bool result = exitPressed;
-        RegisterExitPressedThisFrame();
-        return result;
-    }
+  public Vector2 GetMoveDirection()
+  {
+    return moveDirection;
+  }
 
-    public void RegisterExitPressedThisFrame()
-    {
-        exitPressed = false;
-    }
+  // for any of the below 'Get' methods, if we're getting it then we're also using it,
+  // which means we should set it to false so that it can't be used again until actually
+  // pressed again.
+
+  public bool GetJumpPressed()
+  {
+    bool result = jumpPressed;
+    RegisterJumpPressedThisFrame();
+    return result;
+  }
+
+  public void RegisterJumpPressedThisFrame()
+  {
+    jumpPressed = false;
+  }
+
+  public bool GetExitPressed()
+  {
+    bool result = exitPressed;
+    RegisterExitPressedThisFrame();
+    return result;
+  }
+
+  public void RegisterExitPressedThisFrame()
+  {
+    exitPressed = false;
+  }
 }

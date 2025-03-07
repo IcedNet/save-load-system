@@ -5,45 +5,49 @@ using UnityEngine;
 // so that the camera follows the player (or whatever the target is).
 public class FollowTarget : MonoBehaviour
 {
-    [Header("Transform to Follow")]
-    [SerializeField]
-    private Transform targetTransform;
+  [Header("Transform to Follow")]
+  [SerializeField]
+  private Transform targetTransform;
 
-    [Header("Configuration")]
-    [SerializeField]
-    private bool followX = true;
+  [Header("Configuration")]
+  [SerializeField]
+  private bool followX = true;
 
-    [SerializeField]
-    private bool followY = true;
+  [SerializeField]
+  private bool followY = true;
 
-    [SerializeField]
-    private Vector2 offset = Vector2.zero;
+  [SerializeField]
+  private Vector2 offset = Vector2.zero;
 
-    private Transform originalTargetTransform;
+  private Transform originalTargetTransform;
 
-    private void Start()
+  private void Start()
+  {
+    originalTargetTransform = targetTransform;
+  }
+
+  private void LateUpdate()
+  {
+    // if we don't have a target transform, don't update
+    if (targetTransform == null)
     {
-        originalTargetTransform = targetTransform;
+      return;
     }
 
-    private void LateUpdate()
+    float newPosX = this.transform.position.x;
+    float newPosY = this.transform.position.y;
+    if (followX)
     {
-        // if we don't have a target transform, don't update
-        if (targetTransform == null)
-        {
-            return;
-        }
-
-        float newPosX = this.transform.position.x;
-        float newPosY = this.transform.position.y;
-        if (followX)
-        {
-            newPosX = targetTransform.position.x + offset.x;
-        }
-        if (followY)
-        {
-            newPosY = targetTransform.position.y + offset.y;
-        }
-        this.transform.position = new Vector3(newPosX, newPosY, this.transform.position.z);
+      newPosX = targetTransform.position.x + offset.x;
     }
+    if (followY)
+    {
+      newPosY = targetTransform.position.y + offset.y;
+    }
+    this.transform.position = new Vector3(
+      newPosX,
+      newPosY,
+      this.transform.position.z
+    );
+  }
 }

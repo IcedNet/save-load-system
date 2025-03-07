@@ -2,57 +2,57 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour, IDataPersistence
 {
-    [SerializeField] private string id;
+  [SerializeField]
+  private string id;
 
-    [ContextMenu("Generate guid for id")]
-    private void GenerateGuid() 
+  [ContextMenu("Generate guid for id")]
+  private void GenerateGuid()
+  {
+    id = System.Guid.NewGuid().ToString();
+  }
+
+  private SpriteRenderer visual;
+  private ParticleSystem collectParticle;
+  private bool collected = false;
+
+  private void Awake()
+  {
+    visual = this.GetComponentInChildren<SpriteRenderer>();
+    collectParticle = this.GetComponentInChildren<ParticleSystem>();
+    collectParticle.Stop();
+  }
+
+  public void LoadData(GameData data)
+  {
+    data.coinsCollected.TryGetValue(id, out collected);
+    if (collected)
     {
-        id = System.Guid.NewGuid().ToString();
+      visual.gameObject.SetActive(false);
     }
+  }
 
-    private SpriteRenderer visual;
-    private ParticleSystem collectParticle;
-    private bool collected = false;
-
-    private void Awake() 
+  public void SaveData(GameData data)
+  {
+    if (data.coinsCollected.ContainsKey(id))
     {
-        visual = this.GetComponentInChildren<SpriteRenderer>();
-        collectParticle = this.GetComponentInChildren<ParticleSystem>();
-        collectParticle.Stop();
+      data.coinsCollected.Remove(id);
     }
+    data.coinsCollected.Add(id, collected);
+  }
 
-    public void LoadData(GameData data) 
+  private void OnTriggerEnter2D()
+  {
+    if (!collected)
     {
-        data.coinsCollected.TryGetValue(id, out collected);
-        if (collected) 
-        {
-            visual.gameObject.SetActive(false);
-        }
+      collectParticle.Play();
+      CollectCoin();
     }
+  }
 
-    public void SaveData(GameData data) 
-    {
-        if (data.coinsCollected.ContainsKey(id))
-        {
-            data.coinsCollected.Remove(id);
-        }
-        data.coinsCollected.Add(id, collected);
-    }
-
-    private void OnTriggerEnter2D() 
-    {
-        if (!collected) 
-        {
-            collectParticle.Play();
-            CollectCoin();
-        }
-    }
-
-    private void CollectCoin() 
-    {
-        collected = true;
-        visual.gameObject.SetActive(false);
-        GameEventsManager.instance.CoinCollected();
-    }
-
+  private void CollectCoin()
+  {
+    collected = true;
+    visual.gameObject.SetActive(false);
+    GameEventsManager.instance.CoinCollected();
+  }
 }
