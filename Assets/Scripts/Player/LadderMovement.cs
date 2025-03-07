@@ -28,7 +28,7 @@ public class LadderMovement : MonoBehaviour
                     + moveDirection.y
             );
             isClimbing = true;
-            rb.bodyType = RigidbodyType2D.Kinematic;
+            // rb.bodyType = RigidbodyType2D.Kinematic;
         }
     }
 
@@ -61,7 +61,7 @@ public class LadderMovement : MonoBehaviour
         {
             isLadder = false;
             isClimbing = false;
-            rb.bodyType = RigidbodyType2D.Dynamic;
+            // rb.bodyType = RigidbodyType2D.Dynamic;
         }
     }
 }
