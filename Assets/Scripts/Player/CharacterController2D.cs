@@ -88,13 +88,13 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
     // below code just used to test exiting the scene,
     // you probably wouldn't want to actually do this as part of your
     // character controller script.
-    if (InputManager.instance.GetExitPressed())
-    {
-      // save the game anytime before loading a new scene
-      DataPersistenceManager.instance.SaveGame();
-      // load the main menu scene
-      SceneManager.LoadSceneAsync("MainMenu");
-    }
+    // if (InputManager.instance.GetExitPressed())
+    // {
+    // save the game anytime before loading a new scene
+    // DataPersistenceManager.instance.SaveGame();
+    // load the main menu scene
+    //   SceneManager.LoadSceneAsync("MainMenu");
+    // }
   }
 
   private void FixedUpdate()
@@ -141,17 +141,25 @@ public class CharacterController2D : MonoBehaviour, IDataPersistence
     // Check if any of the overlapping colliders are not player collider, if so,
     // set isGrounded to true
     this.isGrounded = false;
-    if (colliders.Length > 0)
+    foreach (var co in colliders)
     {
-      for (int i = 0; i < colliders.Length; i++)
+      if (co != coll)
       {
-        if (colliders[i] != coll)
-        {
-          this.isGrounded = true;
-          break;
-        }
+        isGrounded = true;
+        break;
       }
     }
+    // if (colliders.Length > 0)
+    // {
+    //   for (int i = 0; i < colliders.Length; i++)
+    //   {
+    //     if (colliders[i] != coll)
+    //     {
+    //       this.isGrounded = true;
+    //       break;
+    //     }
+    //   }
+    // }
   }
 
   private void HandleHorizontalMovement()

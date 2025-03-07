@@ -11008,7 +11008,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.106134415, y: 0.042121887}
+  m_Offset: {x: 0.023965836, y: -1.0358257}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -11018,7 +11018,7 @@ BoxCollider2D:
     drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.6219444, y: 51.90574}
+  m_Size: {x: 3.3209705, y: 54.061634}
   m_EdgeRadius: 0
 --- !u!212 &1008874469
 SpriteRenderer:
@@ -11926,6 +11926,7 @@ GameObject:
   - component: {fileID: 1418207374}
   - component: {fileID: 1418207373}
   - component: {fileID: 1418207372}
+  - component: {fileID: 1418207376}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -12023,6 +12024,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1418207376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418207371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3578beabec0b41e9b054707bdc13f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1439822616
 GameObject:
   m_ObjectHideFlags: 0
@@ -12799,7 +12812,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.106134415, y: 0.13794518}
+  m_Offset: {x: -0.106134415, y: -0.6420975}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -12809,7 +12822,7 @@ BoxCollider2D:
     drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.6219444, y: 46.731174}
+  m_Size: {x: 4.6219444, y: 48.29126}
   m_EdgeRadius: 0
 --- !u!1 &1981030061
 GameObject:
