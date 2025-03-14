@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4030dc46ca768374f8b0e96a3734caf9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124163
+  packageName: Player Prefs Plus
+  packageVersion: 1.0.6
+  assetPath: Assets/SSSoftware/SQL4Unity/Scripts/playerprefsplus_playerprefvalue.cs
+  uploadId: 721295

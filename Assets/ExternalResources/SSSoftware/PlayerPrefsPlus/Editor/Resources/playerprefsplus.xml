@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Asset>
+  <Settings>
+    <resize value="True" />
+    <width value="700" />
+    <htmlfile value="PlayerPrefsPlus.html" />
+    <height value="600" />
+  </Settings>
+  <Options>
+    <Toolbar>
+      <Navigation>
+        <Anchor name="Introduction" value="top" />
+        <Anchor name="Editor" value="ppedit" />
+        <Anchor name="Setup" value="ppset" />
+        <Anchor name="Player Prefs Plus" value="ppplus" />
+        <Anchor name="Player Prefs SQL" value="ppsql" />
+        <Anchor name="Database" value="ppdb" />
+        <Anchor name="Targeting WebGL" value="webgl" />
+      </Navigation>
+      <support value="https://stevesmith.software#contact" />
+      <publisher value="https://stevesmith.software" />
+      <online value="https://stevesmith.software#ppp" />
+      <refresh value="False" />
+    </Toolbar>
+    <title value="Player Prefs Plus Help" />
+    <company value="SteveSmith.Software" />
+    <copyright value="Copyright 2018 SteveSmith.Software. All rights reserved" />
+    <name value="Player Prefs Plus" />
+  </Options>
+</Asset>

@@ -1,0 +1,2677 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <title>Player Prefs Plus</title>
+    <style>
+        body {
+            background-Color: rgb(220,220,220);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>
+            <b>Introduction</b><br />
+            <br />
+            Player Prefs Plus is a replacement system for the standard Unity Player Prefs functionality.<br />
+            It provides many enhancements to the standard system, amongs others these include multi-player support and a wide range of data types.<br />
+            <br />
+            Please use the online version of the <a href="https://stevesmith.software#sql">SQL4Unity documentation</a> for more information<br />
+            about supported data types and using the SQL4Unity database<br />
+            <br />
+            Steve Smith 2018.<br />
+            <br />
+        </p>
+        <br />
+        <p>
+            <b>Installation</b><br />
+            <br />
+            Please read the file Assets/SSSoftware/PlayerPrefsPlus/ReadMe before using Player Prefs Plus.<br />
+            <br />
+        </p>
+        <p id="top">
+            <b>Using Player Prefs Plus</b><br />
+            <br />
+            Player Prefs Plus consists of 3 run-time C# scripts, 1 Unity Editor C# script and an SQL4Unity Database.<br />
+            <br />
+            <u>Editor Script</u><br />
+            <a href="#ppedit">PlayerPrefsEditor.cs</a> - The Unity Editor GUI script for editing players, preferences and preference values via the editor.<br />
+            <br />
+            <u>Run-time Scripts</u><br />
+            <a href="#ppset">PlayerPrefsSetup.cs</a> - Script containing the code for setting up players and preferences<br />
+            <a href="#ppplus">PlayerPrefsPlus.cs</a> - Script for run-time manipulation of preference values for a player.<br />
+            <a href="#ppsql">PlayerPrefsSQL.cs</a> - Script containing the SQL statements to save and retrieve the data in the database.<br />
+            <br />
+            <u>Database</u><br />
+            <a href="#ppdb">PlayerPrefsPlus.s4u</a>
+        </p>
+        <br />
+        <br />
+        <p id="ppedit">
+            <b>Player Prefs Editor</b><br />
+            <br />
+            To start Player Prefs Plus in the Unity Editor go to Tools->Player Prefs Plus->Editor<br />
+            The editor implements most of the functions that are available via the three run-time scripts.<br />
+            The database comes initially with a 'Default Values' player and three example preferences defined. These may be deleted if you do not with to use them<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_001.png" /><br /><br />
+            Open a player by clicking on the triangle next to the players name. To Close a player click on the triangle again.<br />
+            Opening a player will display a new window showing that players preferences and values.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_002.png" /><br /><br />
+            To create a player press on the 'New Player' button.<br />
+            A window will open when you can enter the players name.<br />
+            Press 'Save' to create the player.<br />
+            Press 'New Player' button to close the window without saving.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_003.png" /><br /><br />
+            To create a new preference press on the 'New Preference' button.<br />
+            A window will open where you can enter the preference name and select the preference data type.<br />
+            The name will be used as the preference 'key' in the run-time scripts and is case sensitive.<br />
+            Refer to the SQL4Unity documentation for more information about data types.<br />
+            Press 'Save' to create the preference.<br />
+            Press 'New Preference' button to close the window without saving.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_004.png" /><br /><br />
+            To add a preference to a player, open the player.<br />
+            Select the preference from the drop down.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_005.png" /><br /><br />
+            The preference will be added to the player and value(s) can now be added.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_006.png" /><br /><br />
+            Enter the required value and press 'Add'.<br />
+            Repeat the above if multiple values for the preference are required.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_007.png" /><br /><br />
+            Press 'Save' to save the value(s) to the database.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_008.png" /><br /><br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_009.png" /><br /><br />
+            To delete a value from a preference.<br />
+            Select the preference value to be deleted.<br />
+            Right click on the preference value<br />
+            Select 'Delete Value'<br />
+            Press 'Save' to delete the value from the database.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_012.png" /><br /><br />
+            When a player is open each defined preference has an 'Options' button.<br />
+            Pressing this button displays two menu options:-<br />
+            'Delete Preference' - This will delete this preference and its values from the player.<br />
+            'Delete Preference Value(s)' - This will delete this preference values for the player.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_010.png" /><br /><br />
+            Pressing the 'Options' button for the player displays five menu options:-<br />
+            'Refresh' - Redraw the players preference window.<br />
+            'Delete Player' - Delete the player and his preferences from the database.<br />
+            'Delete ALL Preferences' - Delete all of the preferences and values from the player.<br />
+            'Delete ALL Preference Values' - Delete all of the preference values from the player.<br />
+            'Set Default Preferences' - Copy all of the preferences and values from the 'Default Values' player to this player.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_011.png" /><br /><br />
+            The player preference windows can be dragged in order to view the preferences and values of multiple players.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/ScreenShot_013.png" /><br /><br />
+        </p>
+
+        <p id="ppset">
+            <b>Player Prefs Setup</b>
+            <br />
+            <table>
+                <tr>
+                    <td colspan="2"><b><i>Constructor</i></b></td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup()</td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup(MonoBehaviour mono, Actiion&lt;bool&gt; callback</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><i>Note: You must use the the above constructor if targeting WebGL. Please refer to the secton on <a href="#webgl">WebGL</a> below</i></td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td colspan="2"><b><i>Methods</i></b></td>
+                </tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>AddPlayer</b>(string name)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Add a new player to the database</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>name</td>
+                    <td>The name of the player to add</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The player has been added to the database</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The player has not been added to the database</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            playerprefssetup.AddPlayer("John");<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>AddPref</b>(string key, string dataType)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Add a new preference to the database</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>dataType</td>
+                    <td>The datatype of the preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">Datatype must be one of:- int, string, bool, float, long, byte, DateTime, Vector2, Vector3, Vector4, Color, Quaternion, Rect, Sprite, Resource, GameObject</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Refer to the SQL4Unity documentation for more information on data types.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The preference has been added to the database</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference has not been added to the database</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            playerprefssetup.AddPref("Health", "int");<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>Close</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Close database and release resources</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            /* Do something here */<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>DeletePlayer</b>(string name)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>DeletePlayer</b>(int playerID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete a player and his preferences from the database</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>name</td>
+                    <td>The name of the player to delete</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>playerID</td>
+                    <td>The unique identifier of the player to delete</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The player has been deleted from the database</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The player has not been deleted from the database</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            playerprefssetup.DeletePlayer("John");<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>DeletePref</b>(string key)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>DeletePref</b>(int prefID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete a preference and its values from the database</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to delete</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>prefID</td>
+                    <td>The unique identifier of the preference to delete</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The preference has been deleted from the database</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference has not been deleted from the database</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            playerprefssetup.DeletePref("Health");<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>RenamePlayer</b>(string oldName, string newName)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Change the name of a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>oldName</td>
+                    <td>The current name of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>newName</td>
+                    <td>The new name for the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The player has been renamed</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The player has not been renamed</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            playerprefssetup.RenamePlayer("John","Fred");<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>RenamePref</b>(string oldKey, string newKey)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Change the name of a preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>oldKey</td>
+                    <td>The current name of the preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>newKey</td>
+                    <td>The new name for the preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The preference has been renamed</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference has not been renamed</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSetup playerprefssetup = new PlayerPrefsSetup();<br />
+                            playerprefssetup.RenamePref("Health","Strength");<br />
+                            playerprefssetup.Close();
+                        </code>
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <p id="ppplus">
+            <b>Player Prefs Plus</b>
+            <br />
+            <table>
+                <tr>
+                    <td colspan="2"><b><i>Constructor</i></b></td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus()</td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus(string PlayerName)</td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus(int PlayerID)</td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus(MonoBehaviour mono)</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><i>Note: You must use the the above constructor if targeting WebGL. Please refer to the secton on <a href="#webgl">WebGL</a> below</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerName</td>
+                    <td>
+                        The name of the player<br />
+                        If the player does not exist he will be created
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>mono</td>
+                    <td>A valid MonoBehaviour</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");</td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td colspan="2"><b><i>Properties</i></b></td>
+                </tr>
+                <tr>
+                    <td>string</td>
+                    <td>Name</td>
+                    <td>The name of the current player</td>
+                </tr>
+                <tr>
+                    <td>int</td>
+                    <td>ID</td>
+                    <td>The unique identifier of the current player</td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td colspan="2"><b><i>Methods</i></b></td>
+                </tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>AutoSave</b>(bool save)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Turn automatic saving of changes on or off. Default is on.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>save</td>
+                    <td>
+                        If true changes will be automatically saved.<br />
+                        If false changes will not be saved until Save() is called
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            playerprefsplus.AutoSave(false);<br />
+                            playerprefsplus.Set("Health",10);<br />
+                            playerprefsplus.Set("Wisdom",20);<br />
+                            playerprefsplus.Save();<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>Close</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Close database and release resources</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            /* Do something here */<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>DeleteAll</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete ALL preferences and values from the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>All preferences and values for the player have been deleted</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preferences and values have not been deleted</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            playerprefsplus.DeleteAll();<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>DeleteAllValues</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete ALL preference values from the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>All preference values for the player have been deleted</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference values have not been deleted</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            playerprefsplus.DeleteAllValues();<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>DeleteKey</b>(string key)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete a specific preference and its values from the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to be deleted from the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The preference and its values for the player have been deleted</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference and its values have not been deleted</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            playerprefsplus.DeleteKey("Health");<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>Dictionary&lt;string, object&gt;</td>
+                    <td colspan="2"><b>Get</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retreive all preferences and their values for the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Dictionary&lt;string, object&gt;</td>
+                    <td>
+                        The dictionary will contain one entry per preference set for the player<br />
+                        The dictionary key is the preference name<br />
+                        The dictionary value can be cast to the data type defined for the preference.<br />
+                        If multiple values have been set for the preference the dictionary value will be an object[]<br />
+                        If a preference has no values set the dictionary value will be null;
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>null</td>
+                    <td>No Preferences found for the player</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            Dictionary&lt;string,object&gt; playerprefs = playerprefsplus.Get();<br />
+                            int health = (int)playerprefs["Health"];<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>object</td>
+                    <td colspan="2"><b>Get</b>(string key)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Get</b>(string key, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retreive a named preference value(s) for the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The preference name</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>seq</td>
+                    <td>The sequence number of a preference value when multiple values have been defined</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>object</td>
+                    <td>
+                        The value can be cast to the data type defined for the preference.<br />
+                        If multiple values have been set for the preference the value will be an object[]<br />
+                        If a preference has no values set the value will be null;
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>null</td>
+                    <td>The named preference not found for the player</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            int health = (int)playerprefsplus.Get("Health");<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>GetPlayerByID</b>(int PlayerID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve a player by unique identifier</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player to retrieve</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus();<br />
+                            playerprefsplus.GetPlayerByID(1); // 1 is the ID of the default values player<br />
+                            /* Do something here */<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>GetPlayerByName</b>(string PlayerName)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve or Create a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerName</td>
+                    <td>
+                        The name of the player to retrieve<br />
+                        If the player does not exist he will be created
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus();<br />
+                            playerprefsplus.GetPlayerByName("John");<br />
+                            /* Do something here */<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>int</td>
+                    <td colspan="2"><b>GetAllPlayers</b>(out playerprefsplus_player[] Players)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve all player details</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>out playerprefsplus_player[]</td>
+                    <td>
+                        An array of player details
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>int</td>
+                    <td>The number of players found</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus();<br />
+                            playerprefsplus_player[] players;<br />
+                            int count = playerprefsplus.GetAllPlayers(out players);<br />
+                            /* Do something here */<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>int</td>
+                    <td colspan="2"><b>GetPlayerCount</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve the number of players</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>int</td>
+                    <td>The number of players found</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus();<br />
+                            int count = playerprefsplus.GetPlayerCount();<br />
+                            /* Do something here */<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>HasKey</b>(string key)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Checks if the player has a specified preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to check</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The player does have this preference</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The player does not have this preference</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            int health = 0;<br />
+                            if (playerprefsplus.HasKey("Health") health = (int)playerprefsplus.Get("Health");<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>OpenAsync</b>(Action&lt;bool&gt; callback)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Opens the database asyncronously. Must be used if targting WebGL</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>callback</td>
+                    <td>
+                        A method in the form void Callback(bool ok) to call when the database is open<br />
+                        The parameter ok will contain true if the database opened and false if it did not.
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus(this); // Where this is a MonoBehaviour<br />
+                            playerprefsplus.OpenAsync(Callack);<br />
+                            return;<br />
+                            <br />
+                            void CallBack(bool ok) {<br />
+                            &nbsp;&nbsp;&nbsp;// Do somethng here<br />
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>Save</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Saves any changes to the database. Use with AutoSave(false)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            playerprefsplus.AutoSave(false);<br />
+                            playerprefsplus.Set("Health",10);<br />
+                            playerprefsplus.Set("Wisdom",20);<br />
+                            playerprefsplus.Save();<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>Set</b>(string key, string value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, string value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, string[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, int value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, int value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, int[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, bool value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, bool value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, bool[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, float value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, float value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, float[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, byte value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, byte value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, byte[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, long value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, long value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, long[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, DateTime value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, DateTime value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, DateTime[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector2 value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector2 value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector2[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector3 value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector3 value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector3[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector4 value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector4 value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Vector4[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Quaternion value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Quaternion value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Quaternion[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Rect value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Rect value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Rect[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Color value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Color value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Color[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, GameObject value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, GameObject value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, GameObject[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Sprite value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Sprite value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Sprite[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Object value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Object value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>Set</b>(string key, Object[] value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Set the value(s) of a preference for the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to set</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>value</td>
+                    <td>
+                        The value or array of values to set for the preference.<br />
+                        The data type must match that defined for the preference
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>seq</td>
+                    <td>The sequence number of a value in an array to set. Sequence starts at zero</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The value(s) have been set</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The value(s) have not been set</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            int health = 100;<br />
+                            int[] wisdom = new int[] { 10,20,30 };<br />
+                            playerprefsplus.Set("Health", health);<br />
+                            playerprefsplus.Set("Wisdom", wisdom);<br />
+                            playerprefsplus.Set("Wisdom", 25, 1); // Replace the value of 20 with 25<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>SetDefaults</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Copies the default preferences and values to the current player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The default preferences have been copied</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The default preferences have not been copied</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsPlus playerprefsplus = new PlayerPrefsPlus("John");<br />
+                            playerprefsplus.SetDefaults();<br />
+                            playerprefsplus.Close();
+                        </code>
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <p id="ppsql">
+            <b>Player Prefs SQL</b>
+            <br />
+            <table>
+                <tr>
+                    <td colspan="2"><b><i>Constructor</i></b></td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL()</td>
+                </tr>
+                <tr>
+                    <td colspan="3">PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL(MonoBehaviour mono)</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><i>Note: You must use the the above constructor if targeting WebGL. Please refer to the secton on <a href="#webgl">WebGL</a> below</i></td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td colspan="2"><b><i>Methods</i></b></td>
+                </tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>AutoSave</b>(bool save)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Turn automatic saving of changes on or off. Default is on.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>save</td>
+                    <td>
+                        If true changes will be automatically saved.<br />
+                        If false changes will not be saved until Save() is called
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefssql.AutoSave(false);<br />
+                            playerprefssql.PlayerSet(1,"Health",10);<br />
+                            playerprefssql.PlayerSet(1,"Wisdom",20);<br />
+                            playerprefssql.Save();<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>Close</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Close database and release resources</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            /* Do something here */<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerDeleteAll</b>(int PlayerID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete ALL preferences and values from a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>All preferences and values for the player have been deleted</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preferences and values have not been deleted</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefssql.PlayerDeleteAll(1);<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>OpenAsync</b>(Action&lt;bool&gt; callback)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Opens the database asyncronously. Must be used if targting WebGL</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>callback</td>
+                    <td>
+                        A method in the form void Callback(bool ok) to call when the database is open<br />
+                        The parameter ok will contain true if the database opened and false if it did not.
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL(this); // Where this is a MonoBehaviour<br />
+                            playerprefssql.OpenAsync(Callack);<br />
+                            return;<br />
+                            <br />
+                            void CallBack(bool ok) {<br />
+                            &nbsp;&nbsp;&nbsp;// Do somethng here<br />
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerDeleteAllValues</b>(int PlayerID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete ALL preference values from a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>All preference values for the player have been deleted</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference values have not been deleted</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefssql.PlayerDeleteAllValues(1);<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerDeleteKey</b>(int PlayerID, string key)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Delete a specific preference and its values from a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to be deleted from the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The preference and its values for the player have been deleted</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preference and its values have not been deleted</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefssql.PlayerDeleteKey(1, "Health");<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerGet</b>(int PlayerID, out Dictionary&lt;string, object&gt; values)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retreive all preferences and their values for the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>values</td>
+                    <td>
+                        The dictionary will contain one entry per preference set for the player<br />
+                        The dictionary key is the preference name<br />
+                        The dictionary value can be cast to the data type defined for the preference.<br />
+                        If multiple values have been set for the preference the dictionary value will be an object[]<br />
+                        If a preference has no values set the dictionary value will be null;
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The function completed sucessfully</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>No Preferences found for the player</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            Dictionary&lt;string,object&gt; playerprefs;
+                            playerprefssql.PlayerGet(1, out playerprefs);<br />
+                            int health = (int)playerprefs["Health"];<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerGet</b>(int PlayerID, string key, out object value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>PlayerGet</b>(int PlayerID, string key, int seq, out object value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retreive a named preference value(s) for a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The preference name</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>seq</td>
+                    <td>The sequence number of a preference value when multiple values have been defined</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>value</td>
+                    <td>
+                        The value can be cast to the data type defined for the preference.<br />
+                        If multiple values have been set for the preference the value will be an object[]<br />
+                        If a preference has no values set the value will be null;
+                    </td>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>A preference value was found</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The named preference not found for the player</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            int health = (int)playerprefssql.PlayerGet(1, "Health");<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>string</td>
+                    <td colspan="2"><b>GetPlayerByID</b>(int PlayerID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve a player by unique identifier</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player to retrieve</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>string</td>
+                    <td>
+                        The name of the player found<br />
+                        If no player was found returns "UNKNOWN"
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            string name = playerprefssql.GetPlayerByID(1); // 1 is the ID of the default values player<br />
+                            /* Do something here */<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>int</td>
+                    <td colspan="2"><b>GetPlayerByName</b>(string PlayerName)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve or Create a player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerName</td>
+                    <td>
+                        The name of the player to retrieve<br />
+                        If the player does not exist he will be created
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>int</td>
+                    <td>The unique identifier of the player</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            int playerID = playerprefssql.GetPlayerByName("John");<br />
+                            /* Do something here */<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+
+
+
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>int</td>
+                    <td colspan="2"><b>GetAllPlayers</b>(out playerprefsplus_player[] Players)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve all player details</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>out playerprefsplus_player[]</td>
+                    <td>
+                        An array of player details
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>int</td>
+                    <td>The number of players found</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefsplus_player[] players;<br />
+                            int count = playerprefssql.GetAllPlayers(out players);<br />
+                            /* Do something here */<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>int</td>
+                    <td colspan="2"><b>GetPlayerCount</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Retrieve the number of players</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>int</td>
+                    <td>The number of players found</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            int count = playerprefssql.GetPlayerCount();<br />
+                            /* Do something here */<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+
+
+
+
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerHasKey</b>(int PlayerID, string key)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Checks if a player has a specified preference</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player to retrieve</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to check</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The player does have this preference</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The player does not have this preference</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            int health = 0;<br />
+                            if (playerprefssql.PlayerHasKey(1, "Health") health = (int)playerprefssql.PlayerGet(1, "Health");<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>void</td>
+                    <td colspan="2"><b>Save</b>()</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Saves any changes to the database. Use with AutoSave(false)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>none</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefssql.AutoSave(false);<br />
+                            playerprefssql.PlayerSet(1, "Health", 10);<br />
+                            playerprefssql.PlayerSet(1, "Wisdom", 20);<br />
+                            playerprefssql.Save();<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>PlayerSet</b>(int PlayerID, string key, object value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>PlayerSet</b>(int PlayerID, string key, object value, int seq)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><b>PlayerSetArray</b>(int PlayerID, string key, object value)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Set the value(s) of a preference for the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player to retrieve</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>key</td>
+                    <td>The name of the preference to set</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>value</td>
+                    <td>
+                        The value or array of values to set for the preference.<br />
+                        The data type must match that defined for the preference
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>seq</td>
+                    <td>The sequence number of a value in an array to set. Sequence starts at zero</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The value(s) have been set</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The value(s) have not been set</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            int health = 100;<br />
+                            int[] wisdom = new int[] { 10,20,30 };<br />
+                            // Set the preferences for Player with ID = 1
+                            playerprefssql.PlayerSet(1,"Health", health);<br />
+                            playerprefssql.PlayerSetArray(1,"Wisdom", wisdom);<br />
+                            playerprefssql.PlayerSet(1,"Wisdom", 25, 1); // Replace the value of 20 with 25<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>SetPlayerDefaults</b>(int PlayerID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Copies the default preferences and values to the specified player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The default preferences have been copied</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The default preferences have not been copied</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            // Set Default preferences for Player with ID = 2
+                            playerprefssql.SetPlayerDefaults(2);<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>bool</td>
+                    <td colspan="2"><b>CopyPlayerValues</b>(int PlayerID, int CopyID)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Description</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">Copies the preferences and values from one player to another</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Parameters</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>PlayerID</td>
+                    <td>The unique identifier of the player to copy to</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>CopyID</td>
+                    <td>The unique identifier of the player to copy from</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Return values</i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>true</td>
+                    <td>The preferences have been copied</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>false</td>
+                    <td>The preferences have not been copied</td>
+                    <td>Error message written to the console</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Example</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>
+                        <code class="prettyprint">
+                            PlayerPrefsSQL playerprefssql = new PlayerPrefsSQL();<br />
+                            playerprefssql.CopyPlayerValues(2, 1);<br />
+                            playerprefssql.Close();
+                        </code>
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <p id="ppdb">
+            <b>Player Prefs Plus Database</b><br />
+            <br />
+            Below is the Player Prefs Plus database taken from the SQL4Unity Workbench.<br />
+            The foreign key relationships are:-<br />
+            Player.ID = PlayerPref.PlayerID<br />
+            Pref.ID = PlayerPref.PrefID<br />
+            PlayerPref.ID = PlayerPrefValue.PlayerPrefID. These can be sorted by Seq.<br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/DataBase1.png" /><br /><br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/DataBase2.png" /><br /><br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/DataBase3.png" /><br /><br />
+            <img style='width:95%' src="https://stevesmith.software/PlayerPrefPlus/DataBase4.png" /><br /><br />
+        </p>
+        <p id="webbgl">
+            <b>Targeting WebGL</b><br />
+            <br />
+            When targeting WebGL the constructors of PlayerPrefsSetup, PlayerPrefsPlus and PlayrPrefsSQL must use the MonoBehaviour format.<br />
+            The database can then be opened using the OpenAsync methods of PlayerPlusPlus and PlayerPrefsSQL (This is done automatically for PlayerPrefsSetup).<br />
+            Once the callback from these methods has executed the database can then be used in the normal way.<br />
+            <br />
+<pre>
+<code class="prettyprint">
+            using System.Collections.Generic;
+            using UnityEngine;
+
+            public class OpenDB : MonoBehaviour
+            {
+                PlayerPrefsPlus playerPrefsPlus = null;
+
+                void Start()
+                {
+                    playerPrefsPlus = new PlayerPrefsPlus(this);
+                    playerPrefsPlus.OpenAsync(IsOpen);
+                }
+
+                void IsOpen(bool ok)
+                {
+                    if (ok)
+                    {
+                        playerPrefsPlus.GetPlayerByName("steve");
+                        playerPrefsPlus.SetDefaults();
+                        Dictionary&lt;string, object&gt; playerprefs = playerPrefsPlus.Get();
+                        Debug.Log(playerprefs.Count + " preference values found");
+                        foreach (KeyValuePair&lt;string, object&gt; kvp in playerprefs)
+                        {
+                            Debug.Log(kvp.Key + " " + kvp.Value.ToString());
+                        }
+                        playerPrefsPlus.Close();
+                    }
+                    else
+                    {
+                        Debug.Log("Database unavailable");
+                    }
+                }
+            }
+    </code>
+</pre>
+ <br />
+<i>Note: Should you wish to access a database from another location using the file:///, http:// or https:// protocols this structure can also be used. Please refer to the SQL4Unity documenation for more information</i>
+        </p>
+    </div>
+</body>
+</html>

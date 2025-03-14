@@ -5,7 +5,7 @@ AssetOrigin:
   productId: 60458
   packageName: Magic Cliffs Pixel Art Environment
   packageVersion: 1.0
-  assetPath: Assets/MagicCliffsArtwork/clouds.png
+  assetPath: Assets/ExternalResources/MagicCliffsArtwork/clouds.png
   uploadId: 112436
 TextureImporter:
   internalIDToNameTable: []

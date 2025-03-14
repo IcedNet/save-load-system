@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fc9322d37bdda9a47b206f447fd1c488
+timeCreated: 1545645415
+licenseType: Store
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124163
+  packageName: Player Prefs Plus
+  packageVersion: 1.0.6
+  assetPath: Assets/SSSoftware/PlayerPrefsPlus/ReadMe.txt
+  uploadId: 721295

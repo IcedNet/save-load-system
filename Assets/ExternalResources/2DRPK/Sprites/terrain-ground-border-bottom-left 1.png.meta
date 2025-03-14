@@ -5,7 +5,8 @@ AssetOrigin:
   productId: 22006
   packageName: Tileable 2d Terrain Platforms - 2D RPK
   packageVersion: 1.0
-  assetPath: Assets/2DRPK/Sprites/terrain-ground-border-bottom-left 1.png
+  assetPath: Assets/ExternalResources/2DRPK/Sprites/terrain-ground-border-bottom-left
+    1.png
   uploadId: 22478
 TextureImporter:
   internalIDToNameTable: []

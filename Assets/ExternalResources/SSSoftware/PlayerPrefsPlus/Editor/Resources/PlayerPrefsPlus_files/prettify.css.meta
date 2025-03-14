@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0da98723c5bad664fb15f44b930f9740
+timeCreated: 1545642755
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124163
+  packageName: Player Prefs Plus
+  packageVersion: 1.0.6
+  assetPath: Assets/SSSoftware/PlayerPrefsPlus/Editor/Resources/PlayerPrefsPlus_files/prettify.css
+  uploadId: 721295

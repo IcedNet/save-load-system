@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: e31b8220eb2c0ba47bcf67a684b7cbb2
+timeCreated: 1532420187
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124163
+  packageName: Player Prefs Plus
+  packageVersion: 1.0.6
+  assetPath: Assets/SSSoftware/PlayerPrefsPlus/Scripts/PlayerPrefsPlus.cs
+  uploadId: 721295

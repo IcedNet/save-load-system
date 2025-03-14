@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1a928677f99ddc64ebb5bc8002373da1
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124163
+  packageName: Player Prefs Plus
+  packageVersion: 1.0.6
+  assetPath: Assets/SSSoftware/SQL4Unity/StreamingAssets/PlayerPrefsPlus.s4u
+  uploadId: 721295

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f3f486dfe2bb33f4080d50cf9274d437
+timeCreated: 1532847599
+licenseType: Store
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124163
+  packageName: Player Prefs Plus
+  packageVersion: 1.0.6
+  assetPath: Assets/SSSoftware/PlayerPrefsPlus/License.txt
+  uploadId: 721295
